@@ -1,0 +1,28 @@
+views:
+  - name: total_order
+    description: "The total quantity of items ordered in a single transaction or across a specified period." 
+    public: true
+    meta:
+      title: Total Orders
+      tags:   
+        - DPDomain.Retail
+        - DPUsecase.QaTesting
+        - DPTier.Consumer Aligned
+      metric:
+        expression: "30 6 * * 1-6"
+        timezone: "UTC"
+        window: "day"
+        excludes: 
+          - sales.order_quantity
+          
+    tables:
+      - join_path: sales
+        prefix: true
+        includes:
+          - total_orders
+          - order_quantity
+          - product_key
+          - customer_key
+          - order_date
+          
+      

@@ -1,0 +1,74 @@
+tables:
+  - name: products
+    sql: {{ load_sql('products') }}
+    description: Table containing information about products
+    public: true
+
+    joins:
+      - name: returns
+        relationship: one_to_many
+        sql: "{TABLE.product_key} = {returns.product_key}"
+
+    dimensions:
+      - name: product_key
+        type: number
+        sql: product_key
+        primary_key: true
+        public: true
+
+      - name: product_subcategory_key
+        type: number
+        sql: product_subcategory_key
+
+      - name: product_category_key
+        type: number
+        sql: product_category_key
+
+      - name: product_sku
+        type: string
+        sql: product_sku
+        
+      - name: product_name
+        type: string
+        sql: product_name
+
+      - name: product_category_name
+        type: string
+        sql: product_category_name
+
+      - name: product_subcategory_name
+        type: string
+        sql: product_subcategory_name
+
+      - name: model_name
+        type: string
+        sql: model_name
+
+      - name: product_description
+        type: string
+        sql: product_description
+    
+      - name: product_color
+        type: string
+        sql: product_color
+
+      - name: product_size
+        type: string
+        sql: product_size
+
+      - name: product_style
+        type: string
+        sql: product_style
+
+      - name: product_cost
+        type: number
+        sql: product_cost
+
+      - name: product_price
+        type: number
+        sql: product_price
+    measures:
+      - name: total_product
+        sql: "{TABLE.product_key}"
+        type: count_distinct
+        description: Total Number of Products.

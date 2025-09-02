@@ -1,0 +1,72 @@
+tables:
+  - name: customers
+    sql: {{ load_sql('customers') }}
+    description: Table containing information about customers
+    public: true
+
+    joins:
+      - name: sales
+        relationship: one_to_many
+        sql: "{TABLE.customer_key} = {sales.customer_key}"
+
+    dimensions:
+      - name: customer_key
+        description: unique identifier of a customer
+        type: number
+        sql: customer_key
+        primary_key: true
+        public: true 
+
+      - name: customer_name 
+        type: string
+        sql: customer_name
+
+      - name: birth_date 
+        type: time
+        sql: birth_date
+
+      - name: marital_status 
+        type: string
+        sql: marital_status
+
+      - name: gender 
+        type: string
+        sql: gender
+
+      - name: email 
+        type: string
+        sql: email
+
+      - name: annual_income 
+        type: number
+        sql: annual_575income
+      
+      - name: education_level 
+        type: string
+        sql: education_level
+
+      - name: occupation 
+        type: string
+        sql: occupation
+    
+      - name: home_owner 
+        type: string
+        sql: home_owner
+    
+      - name: birth_date
+        type: time
+        sql: birth_date
+
+      - name: load_date
+        type: time
+        sql: load_date
+
+    measures:
+      - name: total_customer
+        sql: "{TABLE.customer_key}"
+        type: count_distinct
+        description: Total Number of Customers.
+
+      - name: average_customer_income
+        sql: "{TABLE.annual_income}"
+        type: avg 

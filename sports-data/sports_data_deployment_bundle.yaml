@@ -1,0 +1,83 @@
+version: v2alpha
+#name: ${LENS_NAME}
+name: sports-data-27                                      # in case of bundle provide lens name
+layer: user
+type: lens
+tags:
+  - lens
+description: sports data deployment on lens2 using source flash service
+lens:
+  #compute: runnable-default
+  compute: thunderflar-compute
+  secrets:
+    - name: lens-bb-secrets-new                            # user your bitbucket credentials to access lens
+      allKeys: true
+  source:
+    type: minerva
+    name: minervaicebase
+    catalog: icebase                             
+  repo:
+
+    url: https://bitbucket.org/rubik_/dataos-double-check
+    lensBaseDir: dataos-double-check/integration-tests/artifacts/lens/sports-data/model
+    syncFlags:
+      - --ref=master
+  
+  api:
+    replicas: 1
+    logLevel: info
+    envs:
+      LENS2_SOURCE_CATALOG_NAME: icebase
+      LENS2_SCHEDULED_REFRESH_TIMEZONES: "UTC,America/Vancouver,America/Toronto"
+      LENS2_SOURCE_WORKSPACE_NAME: ag01
+    resources:
+      requests:
+        cpu: 500m
+        memory: 1000Mi
+      limits:
+        cpu: 1000m
+        memory: 2000Mi
+  worker:
+    replicas: 1
+    logLevel: Info
+    envs:
+      LENS2_SOURCE_CATALOG_NAME: icebase
+      LENS2_SCHEDULED_REFRESH_TIMEZONES: "UTC,America/Vancouver,America/Toronto"
+      LENS2_SOURCE_WORKSPACE_NAME: ag01
+    resources:
+      requests:
+        cpu: 500m
+        memory: 1000Mi
+      limits:
+        cpu: 1000m
+        memory: 2000Mi
+  router:
+    logLevel: info
+    envs:
+      LENS2_SOURCE_CATALOG_NAME: icebase
+      LENS2_SCHEDULED_REFRESH_TIMEZONES: "UTC,America/Vancouver,America/Toronto"
+      LENS2_SOURCE_WORKSPACE_NAME: ag01
+    resources:
+      requests:
+        cpu: 500m
+        memory: 1000Mi
+      limits:
+        cpu: 1000m
+        memory: 2000Mi
+
+  # iris:
+  #   logLevel: info
+  #   envs:
+  #     LENS2_SCHEDULED_REFRESH_TIMEZONES: "UTC,America/Vancouver,America/Toronto"
+  #     LENS2_SOURCE_WORKSPACE_NAME: ag01
+  #     LENS2_DB_TIMEOUT: 1500000
+  #   resources:
+  #     requests:
+  #       cpu: 500m
+  #       memory: 1000Mi
+  #     limits:
+  #       cpu: 1000m
+  #       memory: 2000Mi
+
+  metric: 
+    logLevel: debug  

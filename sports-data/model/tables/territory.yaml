@@ -1,0 +1,30 @@
+tables:
+  - name: territory
+    sql: {{ load_sql('territory') }}
+    description: Table containing information about territory
+    public: true
+
+    dimensions:
+      - name: sales_territory_key
+        type: number
+        sql: sales_territory_key
+        primary_key: true
+        public: true
+
+      - name: region 
+        type: string
+        sql: region
+
+      - name: country
+        type: string
+        sql: country
+
+      - name: continent
+        type: string
+        sql: continent
+
+    measures:
+      - name: total_territory
+        sql: "{TABLE.sales_territory_key}"
+        type: count_distinct
+        description: Total Number of Territory.

@@ -1,0 +1,28 @@
+views:
+  - name: average_customer_income
+    description: "The average income level of customers within a specified group or segment, used for demographic and purchasing power analysis." 
+    public: true
+    meta:
+      title: Customers Average Income 
+      tags:   
+        - DPDomain.Retail
+        - DPUsecase.QaTesting
+        - DPTier.Consumer Aligned
+      metric:
+        expression: "30 6 * * 1-6"
+        timezone: "UTC"
+        window: "day"
+        excludes: 
+          - customers.annual_income
+          
+    tables:
+      - join_path: customers
+        prefix: true
+        includes:
+          - average_customer_income
+          - annual_income
+          - marital_status
+          - gender
+          - birth_date
+          
+      

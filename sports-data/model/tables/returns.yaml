@@ -1,0 +1,34 @@
+tables:
+  - name: returns
+    sql: {{ load_sql('returns') }}
+    description: Table containing information about product return
+    public: true
+
+    dimensions:
+      - name: uuid
+        type: string
+        sql: __metadata
+        primary_key: true
+        public: true
+
+      - name: return_date
+        type: time
+        sql: return_date
+        
+      - name: territory_key 
+        type: number
+        sql: territory_key
+
+      - name: product_key 
+        type: number
+        sql: product_key
+
+      - name: return_quantity 
+        type: number
+        sql: return_quantity
+
+    measures:
+      - name: total_product_returns
+        sql: "{TABLE.return_quantity}"
+        type: sum
+        description: Total Number of Product returns.

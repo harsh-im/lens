@@ -1,0 +1,72 @@
+tables:
+  - name: sales
+    sql: {{ load_sql('sales') }}
+    description: Table containing information about sales
+    public: true
+
+    joins:
+      - name: products
+        relationship: many_to_one
+        sql: "{TABLE.product_key} = {products.product_key}"
+
+      - name: territory
+        relationship: many_to_one
+        sql: "{TABLE.territory_key} = {territory.sales_territory_key}"
+
+    dimensions:
+      - name: uuid
+        type: string
+        sql: __metadata
+        primary_key: true
+        public: true
+
+      - name: order_date 
+        type: time
+        sql: order_date
+        description: date of order
+      
+      - name: stock_date
+        type: time
+        sql: stock_date
+        description: date of stock
+
+      - name: order_number
+        type: string
+        sql: order_number
+        description: order number
+
+      - name: product_key
+        type: number
+        sql: product_key
+        description: unique identifier of a product
+
+      - name: customer_key
+        type: number
+        sql: customer_key
+        description: unique identifier of a customer
+
+      - name: territory_key
+        type: number
+        sql: territory_key
+        description: unique identifier of a territory
+    
+      - name: order_line_item
+        type: number
+        sql: order_line_item
+
+      - name: order_quantity
+        type: number
+        sql: order_quantity
+
+      - name: year
+        type: number
+        sql: year
+
+      - name: load_date
+        type: time
+        sql: load_date
+    measures:
+      - name: total_orders
+        sql: "{TABLE.order_quantity}"
+        type: sum
+        description: Total Number of Orders.
