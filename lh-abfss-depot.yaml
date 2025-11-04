@@ -1,0 +1,20 @@
+version: v2alpha
+name: "abfsslhdepot01"
+type: depot
+depot:
+  type: lakehouse
+  spec:
+    storageType: abfss
+    catalogType: REST
+    metastoreUrl: http://myabfsslh03ms.callisto-0-engineering-0-ets.svc.cluster.local:8099
+    abfss:
+      account: "mockdataos"
+      container: "dropzone001"
+      endpointSuffix: dfs.core.windows.net
+      relativePath: lh01
+      format: ICEBERG
+  secrets:
+    - id: system:my-abfss-secrets
+      purpose: rw
+  description: Default Iceberg Data Depot
+
